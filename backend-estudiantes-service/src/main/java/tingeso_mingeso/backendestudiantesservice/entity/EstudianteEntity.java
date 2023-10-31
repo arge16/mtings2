@@ -38,5 +38,5 @@ public class EstudianteEntity {
     private double debtToPay; //deuda por pagar
     private int installmentsLate; //cuotas atrasadas
 
-    
+
 }
