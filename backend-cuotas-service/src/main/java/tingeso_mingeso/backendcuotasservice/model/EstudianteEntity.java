@@ -14,11 +14,22 @@ import java.time.LocalDate;
 @Data
 public class EstudianteEntity {
     private String rut;
-    private String nombres;
-    private String apellidos;
-    private LocalDate fecha_nacimiento;
-    private int tipo_colegio;
-    private String nombre_colegio;
-    private LocalDate anio_egreso;
-    private LocalDate anio_ingreso;
+    private String name;
+    private String lastname;
+    private String birthdate;
+    private int graduation_year;
+    private String school;
+    private String school_type;
+
+    private int totalExams; //total de examenes
+    private double scoresAverage; //promedio de notas
+    private double totalDebt; //deuda total
+    private String paymentType; //tipo de pago Contado o Cuotas
+    private int installments; //cuotas pactadas
+    private int installmentsPaid; //cuotas pagadas
+    private double debtPaid; //deuda pagada
+    private LocalDate lastPayment; //ultima fecha de pago
+    private double debtToPay; //deuda por pagar
+    private int installmentsLate; //cuotas atrasadas
+
 }

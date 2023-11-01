@@ -4,98 +4,74 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Data
 @Service
 public class AdministracionService {
 
-    private final int matricula = 70000;
-    private final int arancel = 1500000;
+    public double discountBySchoolType(String typeSchool) {
+        double discount = 0;
+        if (Objects.equals(typeSchool, "Municipal")) {
+            discount = 0.2;
+        } else if (Objects.equals(typeSchool, "Subvencionado")) {
+            discount = 0.1;
 
-    private final int contado=50;
-
-    public int descuentoTipoColegio(String tipoColegio){
-        if(tipoColegio.equals("Municipal")){
-            return 20;
         }
-        else if(tipoColegio.equals("Subvencionado")){
-            return 10;
-        }
-        else{
-            return 0;
-        }
+        return discount;
     }
-    public int descuentoTipoColegio(int id_tipoColegio){
-        if(id_tipoColegio == 1){
-            return 20;
-        }
-        else if(id_tipoColegio == 2){
-            return 10;
-        }
-        else{
-            return 0;
-        }
+    public double discountByGraduationYear(int graduationYear) {
+        int yearsGraduated = 2023 - graduationYear;
+        double discountToApply = 0;
+        if (yearsGraduated < 1) {
+            discountToApply = 0.15;
+        } else if (yearsGraduated == 1 ||  yearsGraduated == 2)  {
+            discountToApply = 0.08;
+        } else if (yearsGraduated == 3 ||  yearsGraduated == 4) {
+            discountToApply = 0.04;}
+        return discountToApply;
     }
 
-
-    public int descuentoEgresoColegio(LocalDate fechaEgresoColegio, LocalDate fechaIngresoPreu){
-        int difAnio = fechaIngresoPreu.getYear() - fechaEgresoColegio.getYear();
-        int difDays = fechaIngresoPreu.getDayOfYear() - fechaEgresoColegio.getDayOfYear();
-        System.out.println("difAnio = " + difAnio);
-        System.out.println("DifDays = " + difDays);
-        if(difDays < 0) {
-            difAnio--;
+    public int maxInstallments(String typeSchool) {
+        int max = 0;
+        if (Objects.equals(typeSchool, "Municipal")) {
+            max = 10;
+        } else if (Objects.equals(typeSchool, "Subvencionado"))  {
+            max = 7;
+        } else if (Objects.equals(typeSchool, "Privado")) {
+            max = 4;
         }
-        if(difAnio <= 1){
-            return 15;
-        }
-        else if(difAnio <= 2){
-            return 8;
-        }
-        else if(difAnio <= 4){
-            return 4;
-        }
-        else{
-            return 0;
-        }
+        return max;
     }
 
-    public int descuentePuntajePruebas(int puntaje){
-        if(puntaje >= 950 && puntaje <= 1000){
-            return 10;
+    public double discountByExam(int examGrade) {
+        double discountToApply = 0;
+        if ((examGrade >= 950) && (examGrade <= 1000)) {
+            discountToApply = 0.1;
+        } else if ((examGrade >= 900) && (examGrade < 950))  {
+            discountToApply = 0.05;
+        } else if ((examGrade >= 850) && (examGrade < 900)) {
+            discountToApply = 0.02;
         }
-        else if(puntaje >= 900 && puntaje<=949){
-            return 5;
-        }
-        else if(puntaje >= 850 && puntaje<=899){
-            return 5;
-        }
-        else{
-            return 0;
-        }
+        return discountToApply;
     }
 
-    public int interesMesesAtraso(int mesesInteres){
-        if(mesesInteres==0){
-            return 0;
-        } else if (mesesInteres == 1) {
-            return 3;
-        } else if (mesesInteres == 2) {
-            return 6;
-        } else if (mesesInteres == 3) {
-            return 9;
-        }else{
-            return 15;
+    public double interestRate(int monthsLate) {
+        double interest = 0;
+        if (monthsLate == 1) {
+            interest = 0.03;
+        } else if (monthsLate == 2)  {
+            interest = 0.06;
+        } else if (monthsLate == 3) {
+            interest = 0.09;
         }
+        else if (monthsLate > 3) {
+            interest = 0.15;
+        }
+        return interest;
     }
 
-    public boolean PreguntarCuotas(int id_tipoColegio, int cantidadCuotas){
-        if(id_tipoColegio==1){
-            return cantidadCuotas <= 10;
-        } else if (id_tipoColegio==2) {
-            return cantidadCuotas <= 7;
-        } else{
-            return cantidadCuotas <= 4;
-        }
-    }
+
+
+
 }

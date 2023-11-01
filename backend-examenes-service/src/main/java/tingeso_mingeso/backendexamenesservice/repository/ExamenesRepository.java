@@ -14,5 +14,5 @@ public interface ExamenesRepository extends JpaRepository<ExamenesEntity, String
     //@Query("select e from ExamenesEntity e where e.rut = :rut and e.estado=true")
     //List<ExamenesEntity> findCuotaByRut(@Param("rut") String rut);
 
-    public List<ExamenesEntity> findByRut(String rut);
+    public ArrayList<ExamenesEntity> findByRut(String rut);
 }

@@ -10,17 +10,21 @@ import tingeso_mingeso.backendexamenesservice.entity.ExamenesEntity;
 
 import tingeso_mingeso.backendexamenesservice.repository.ExamenesRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Service
 public class ExamenesService {
     @Autowired
-    ExamenesRepository cuotasRepository;
+    ExamenesRepository examenesRepository;
 
 
     @Autowired
     RestTemplate restTemplate;
 
 
+    public ArrayList<ExamenesEntity> byRut(String rut) {
+        return examenesRepository.findByRut(rut);
+    }
 }

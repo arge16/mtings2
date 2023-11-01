@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cuota {
+public class CuotasEntity {
 
     private String rut;
     private int amount;

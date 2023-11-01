@@ -6,7 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tingeso_mingeso.backendestudiantesservice.entity.EstudianteEntity;
 import tingeso_mingeso.backendestudiantesservice.service.EstudianteService;
-
+import tingeso_mingeso.backendestudiantesservice.model.CuotasEntity;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -31,6 +32,28 @@ public class EstudianteController {
     public ResponseEntity<EstudianteEntity> save(@RequestBody EstudianteEntity student) {
         EstudianteEntity studentNew = estudianteService.saveStudent(student);
         return ResponseEntity.ok(studentNew);
+    }
+
+    @GetMapping("/paymenttype/{rut}/{paymentType}")
+    public ResponseEntity<EstudianteEntity> setPaymentType(@PathVariable("rut") String rut, @PathVariable("paymentType") String paymentType) {
+        EstudianteEntity student = estudianteService.setPaymentType(rut, paymentType);
+        if(student == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(student);
+    }
+
+    @GetMapping("/{rut}")
+    public ResponseEntity<EstudianteEntity> getByRut(@PathVariable("rut") String rut) {
+        EstudianteEntity student = estudianteService.getByRut(rut);
+        if(student == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(student);
+    }
+
+    @GetMapping("/cuotas/{rut}")
+    public ResponseEntity<ArrayList<CuotasEntity>> getCuotas(@PathVariable("rut") String rut) {
+        ArrayList<CuotasEntity> cuotas = estudianteService.getCuotas(rut);
+        return ResponseEntity.ok(cuotas);
     }
 
 }
