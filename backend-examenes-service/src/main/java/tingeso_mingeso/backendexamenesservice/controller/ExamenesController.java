@@ -17,6 +17,13 @@ public class ExamenesController {
     ExamenesService examenesService;
 
 
+    @PostMapping()
+    public ResponseEntity<ExamenesEntity> save(@RequestBody ExamenesEntity examen) {
+        ExamenesEntity examenNew = examenesService.save(examen);
+        return ResponseEntity.ok(examenNew);
+    }
+
+
     @GetMapping("/byrut/{rut}")
     public ResponseEntity<ArrayList<ExamenesEntity>> getByRut(@PathVariable("rut") String rut) {
         ArrayList<ExamenesEntity> examenes = examenesService.byRut(rut);

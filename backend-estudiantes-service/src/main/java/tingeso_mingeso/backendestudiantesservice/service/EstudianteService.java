@@ -61,6 +61,10 @@ public class EstudianteService {
     }
 
 
+    public EstudianteEntity getStudentById(Long id) {
+        return estudianteRepository.findById(id).orElse(null);
+    }
+
     /*
     public void saveStudentData(String rut, String name, String lastname, String birthdate, int graduation_year, String school, String school_type) {
         EstudianteEntity student = new EstudianteEntity();

@@ -9,7 +9,7 @@ import tingeso_mingeso.backendestudiantesservice.entity.EstudianteEntity;
 import java.util.ArrayList;
 
 @Repository
-public interface EstudianteRepository extends JpaRepository<EstudianteEntity, String> {
+public interface EstudianteRepository extends JpaRepository<EstudianteEntity, Long> {
     //@Query("select e from EstudianteEntity e where e.rut = :rut")
     //EstudianteEntity findByRut(@Param("rut") String rut);
 

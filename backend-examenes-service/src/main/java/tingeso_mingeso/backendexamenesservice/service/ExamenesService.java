@@ -23,7 +23,9 @@ public class ExamenesService {
     @Autowired
     RestTemplate restTemplate;
 
-
+    public ExamenesEntity save(ExamenesEntity examen){
+        return examenesRepository.save(examen);
+    }
     public ArrayList<ExamenesEntity> byRut(String rut) {
         return examenesRepository.findByRut(rut);
     }

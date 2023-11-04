@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/estudiante")
 public class EstudianteController {
@@ -42,7 +43,7 @@ public class EstudianteController {
         return ResponseEntity.ok(student);
     }
 
-    @GetMapping("/{rut}")
+    @GetMapping("/byRut/{rut}")
     public ResponseEntity<EstudianteEntity> getByRut(@PathVariable("rut") String rut) {
         EstudianteEntity student = estudianteService.getByRut(rut);
         if(student == null)
@@ -54,6 +55,14 @@ public class EstudianteController {
     public ResponseEntity<ArrayList<CuotasEntity>> getCuotas(@PathVariable("rut") String rut) {
         ArrayList<CuotasEntity> cuotas = estudianteService.getCuotas(rut);
         return ResponseEntity.ok(cuotas);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EstudianteEntity> getById(@PathVariable("id") Long id) {
+        EstudianteEntity student = estudianteService.getStudentById(id);
+        if(student == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(student);
     }
 
 }
