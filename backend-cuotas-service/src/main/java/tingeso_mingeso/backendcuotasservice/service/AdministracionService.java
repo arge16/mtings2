@@ -32,8 +32,8 @@ public class AdministracionService {
         return discountToApply;
     }
 
-    public int maxInstallments(String typeSchool) {
-        int max = 0;
+    public Integer maxInstallments(String typeSchool) {
+        Integer max = 0;
         if (Objects.equals(typeSchool, "Municipal")) {
             max = 10;
         } else if (Objects.equals(typeSchool, "Subvencionado"))  {

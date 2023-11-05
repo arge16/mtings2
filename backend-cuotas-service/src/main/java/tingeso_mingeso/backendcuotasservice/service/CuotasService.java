@@ -63,7 +63,7 @@ public class CuotasService {
     public EstudianteEntity findStudentByRut(String rut){
         System.out.println("rut: "+rut);
         ResponseEntity<EstudianteEntity> response = restTemplate.exchange(
-                "http://localhost:8080/estudiante/"+rut,
+                "http://localhost:8080/estudiante/byRut/"+rut,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<EstudianteEntity>() {}
@@ -80,6 +80,11 @@ public class CuotasService {
                 new ParameterizedTypeReference<EstudianteEntity>() {}
         );
         return response.getBody();
+    }
+
+    public Integer maxInstallments(String rut){
+        EstudianteEntity student = findStudentByRut(rut);
+        return administracionService.maxInstallments(student.getSchool_type());
     }
 
 

@@ -9,6 +9,7 @@ import HeaderComponent from './components/HeaderComponent';
 import CreateStudentComponent from './components/CreateStudentComponent';
 import ViewStudentComponent from './components/ViewStudentComponent';
 import ViewInstallmentsComponent from './components/ViewInstallmentsComponent';
+import CreateInstallmentsComponent from './components/CreateInstallmentsComponent';
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
                           <Route path = "/add-student" component = {CreateStudentComponent}></Route>
                           <Route path = "/view-student/:id" component = {ViewStudentComponent}></Route>
                           <Route path = "/view-installments/:rut" component = {ViewInstallmentsComponent}></Route>
+                          <Route path = "/create-installments/:rut" component = {CreateInstallmentsComponent}></Route>
+                  
                     </Switch>
                 </div>
         </Router>

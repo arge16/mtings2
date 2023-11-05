@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import StudentService from '../services/StudentService'
+import InstallmentService from '../services/InstallmentService'
 
 class ListStudentComponent extends Component {
     constructor(props) {
@@ -20,8 +21,19 @@ class ListStudentComponent extends Component {
         this.props.history.push('/view-student/' + id);
     }
 
-    updateStudent(id){
-        alert("Updating a Book is still under construction...");
+    pagoCuotas(rut){
+        this.props.history.push('/create-installments/' + rut);
+    }
+
+    pagoContado(rut){
+        InstallmentService.createContado(rut)
+        .then(response => {
+            alert("Se ha generado el pago contado.");
+            
+        })
+        .catch(error => {
+            console.error("Error al generar el pago contado:", error);
+        });
     }
 
     deleteStudent(id){
@@ -75,8 +87,8 @@ class ListStudentComponent extends Component {
                                              <td>
                                                  <button onClick={ () => this.viewInstallments(student.rut)} className="btn btn-info">View Cuotas</button>
                                                  <button onClick={ () => this.viewStudent(student.id)} className="btn btn-info">View</button>
-                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.updateStudent(student.id)} className="btn btn-info">Update</button>
-                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.deleteStudent(student.id)} className="btn btn-danger">Delete</button>
+                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.pagoContado(student.rut)} className="btn btn-info">Contado</button>
+                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.pagoCuotas(student.rut)} className="btn btn-danger">Cuotas</button>
                                              </td>
                                         </tr>
                                     )

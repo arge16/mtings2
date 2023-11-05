@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tingeso_mingeso.backendcuotasservice.entity.CuotasEntity;
 import tingeso_mingeso.backendcuotasservice.model.EstudianteEntity;
+import tingeso_mingeso.backendcuotasservice.service.AdministracionService;
 import tingeso_mingeso.backendcuotasservice.service.CuotasService;
 
 import java.lang.reflect.Array;
@@ -17,6 +18,8 @@ import java.util.List;
 public class CuotasController {
     @Autowired
     CuotasService cuotasService;
+    @Autowired
+    AdministracionService administracionService;
 
     @PostMapping()
     public ResponseEntity<CuotasEntity> save(@RequestBody CuotasEntity cuota) {
@@ -38,6 +41,13 @@ public class CuotasController {
         ArrayList<CuotasEntity> cuotas = cuotasService.getAllByRut(rut);
         return ResponseEntity.ok(cuotas);//Redirect es para redirigir a otro controlador, return retorna la vista
     }
+
+    @GetMapping("/calcular-limit/{rut}")
+    public ResponseEntity<Integer> calcularLimit(@PathVariable("rut") String rut) {
+        Integer limit = cuotasService.maxInstallments(rut);
+        return ResponseEntity.ok(limit);//Redirect es para redirigir a otro controlador, return retorna la vista
+    }
+
 
 
     @GetMapping("/bystudent/{rut}")
