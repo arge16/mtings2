@@ -9,6 +9,7 @@ class ListStudentComponent extends Component {
             students: []
         }
         this.addStudent = this.addStudent.bind(this);
+        this.viewInstallments = this.viewInstallments.bind(this);
     }
 
     addStudent(){
@@ -27,6 +28,10 @@ class ListStudentComponent extends Component {
         alert("Deleting a Book is still under construction...");
     }
 
+    viewInstallments(rut){
+        this.props.history.push('/view-installments/' + rut);
+    }
+
     componentDidMount(){
         StudentService.getStudents().then((res) => {
             this.setState({ students: res.data});
@@ -36,9 +41,10 @@ class ListStudentComponent extends Component {
     render() {
         return (
             <div>
-                 <h2 className="text-center">List of Students</h2>
+                <br></br>
+                 <h2 className="text-center">Estudiantes</h2>
                  <div className = "row">
-                    <button className="btn btn-primary" onClick={this.addStudent}>Add Student</button>
+                    <button className="btn btn-info" onClick={this.addStudent}>Add Student</button>
                  </div>
                  <br></br>
                  <div className = "row">
@@ -52,6 +58,7 @@ class ListStudentComponent extends Component {
                                     <th> Año egreso</th>
                                     <th> Colegio</th>
                                     <th> Tipo Colegio</th>
+                                    <th> Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,6 +73,7 @@ class ListStudentComponent extends Component {
                                              <td> {student.school}</td>
                                              <td> {student.school_type}</td>
                                              <td>
+                                                 <button onClick={ () => this.viewInstallments(student.rut)} className="btn btn-info">View Cuotas</button>
                                                  <button onClick={ () => this.viewStudent(student.id)} className="btn btn-info">View</button>
                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.updateStudent(student.id)} className="btn btn-info">Update</button>
                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.deleteStudent(student.id)} className="btn btn-danger">Delete</button>
