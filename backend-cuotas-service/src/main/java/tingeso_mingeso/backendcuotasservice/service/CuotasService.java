@@ -54,10 +54,7 @@ public class CuotasService {
 
 
 
-    public ArrayList<ExamenesEntity> getAllExamsByRut(String rut) {
-        ArrayList<ExamenesEntity> examenes = restTemplate.getForObject("http://backend-examenes-service/examen/byrut/"+rut, ArrayList.class);
-        return examenes;
-    }
+
 
 
     public EstudianteEntity findStudentByRut(String rut){
@@ -165,57 +162,6 @@ public class CuotasService {
         LocalDate paymentDay = LocalDate.now();
         installment.get().setPayment_date(paymentDay);
         return cuotasRepository.save(installment.get());
-    }
-
-    public void setInterestRate(ArrayList<CuotasEntity> installments) {
-        //calcular la cuota con mas meses de atraso
-        int monthsLate = 0;
-        for (CuotasEntity installment:installments) {
-            if (installment.getAmount() != 70000 && installment.getStatus().equals("Unpaid") && LocalDate.now().isAfter(installment.getDue_date())) {
-                monthsLate++ ;
-            }
-        }
-        //Hasta aqui tengo la fecha mas antigua de las cuotas impagas
-        double interest = administracionService.interestRate(monthsLate);
-        for (CuotasEntity installment1:installments) {
-            if (installment1.getAmount()!=70000 && installment1.getStatus().equals("Unpaid")){
-                installment1.setInterest(interest);
-                installment1.setAmount((int) (installment1.getAmount() * (1 + interest)));
-                saveInstallment(installment1);
-            }
-        }
-    }
-
-    public void generateSpreadsheet(String rut){
-        ArrayList<ExamenesEntity> exams = getAllExamsByRut(rut);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate dateTest = LocalDate.parse(exams.get(0).getDate_of_exam(), formatter);
-        int score = 0;
-
-        for (ExamenesEntity examEntity : exams) {  //En este ciclo se obtiene la fecha mas reciente de los examenes
-            score = score + examEntity.getScore();
-            String dateAux = examEntity.getDate_of_exam();
-            LocalDate date = LocalDate.parse(dateAux, formatter);
-            if (date.isAfter(dateTest)) {
-                dateTest = date;
-            }
-        }
-        int  scoreAverage = score / exams.size();
-        ArrayList<CuotasEntity> installments = getAllByRut(rut);
-        for (CuotasEntity installment : installments) {
-
-            //Descuentos por examenes
-            if (installment.getDue_date().isAfter(dateTest) ) {
-                double discountByExam = administracionService.discountByExam(scoreAverage);
-                double totalDiscount = installment.getDiscount() + discountByExam;
-                totalDiscount = Math.round(totalDiscount * 100.0) / 100.0;
-                double installmentAmount = (installment.getAmount() * discountByExam) + installment.getAmount();
-                installment.setDiscount(totalDiscount);
-                installment.setAmount( (int) Math.ceil(installmentAmount));
-                cuotasRepository.save(installment);
-            }
-        }
-        setInterestRate(installments);
     }
 
 

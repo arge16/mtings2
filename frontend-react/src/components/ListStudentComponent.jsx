@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import StudentService from '../services/StudentService'
 import InstallmentService from '../services/InstallmentService'
+import ExamService from '../services/ExamService'
 
 class ListStudentComponent extends Component {
     constructor(props) {
@@ -11,14 +12,40 @@ class ListStudentComponent extends Component {
         }
         this.addStudent = this.addStudent.bind(this);
         this.viewInstallments = this.viewInstallments.bind(this);
+        this.loadCsv = this.loadCsv.bind(this);
+        this.viewStudent = this.viewStudent.bind(this);
+        this.generateReport = this.generateReport.bind(this);
+        this.generateSpreadsheet = this.generateSpreadsheet.bind(this);
+        this.pagoCuotas = this.pagoCuotas.bind(this);
+        this.pagoContado = this.pagoContado.bind(this);
+        
     }
 
     addStudent(){
         this.props.history.push('/add-student');
     }
 
+    loadCsv(){
+        this.props.history.push('/load-csv');
+    }
+
     viewStudent(id){
         this.props.history.push('/view-student/' + id);
+    }
+
+    generateReport(rut){
+        this.props.history.push('/view-report/' + rut);
+    }
+
+    generateSpreadsheet(rut){
+        ExamService.generarPlanilla(rut)
+        .then(response => {
+            alert("Se ha generado la planilla de pago.");
+            
+        })
+        .catch(error => {
+            console.error("Error al generar la planilla de pago:", error);
+        });
     }
 
     pagoCuotas(rut){
@@ -55,9 +82,14 @@ class ListStudentComponent extends Component {
             <div>
                 <br></br>
                  <h2 className="text-center">Estudiantes</h2>
-                 <div className = "row">
-                    <button className="btn btn-info" onClick={this.addStudent}>Add Student</button>
-                 </div>
+                 <div className="d-flex">
+                    <button className="btn btn-info" onClick={this.addStudent}>
+                    Add Student
+                    </button>
+                    <button className="btn btn-info ml-2" onClick={this.loadCsv}>
+                    Cargar Csv
+                    </button>
+                </div>
                  <br></br>
                  <div className = "row">
                         <table className = "table table-striped table-bordered">
@@ -85,10 +117,13 @@ class ListStudentComponent extends Component {
                                              <td> {student.school}</td>
                                              <td> {student.school_type}</td>
                                              <td>
-                                                 <button onClick={ () => this.viewInstallments(student.rut)} className="btn btn-info">View Cuotas</button>
-                                                 <button onClick={ () => this.viewStudent(student.id)} className="btn btn-info">View</button>
-                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.pagoContado(student.rut)} className="btn btn-info">Contado</button>
-                                                 <button style={{marginLeft: "10px"}} onClick={ () => this.pagoCuotas(student.rut)} className="btn btn-danger">Cuotas</button>
+                                    
+                                                 <button onClick={ () => this.pagoContado(student.rut)} className="btn btn-info">Pago Contado</button>
+                                                 <button onClick={ () => this.pagoCuotas(student.rut)} className="btn btn-info">Generar Cuotas</button>
+                                                 <button onClick={ () => this.viewInstallments(student.rut)} className="btn btn-info">Listar Cuotas</button>
+                                                 <button onClick={ () => this.generateSpreadsheet(student.rut)} className="btn btn-info">Generar Planilla</button>
+                                                 <button onClick={ () => this.generateReport(student.rut)} className="btn btn-info">Generar Reporte</button>
+                                                 
                                              </td>
                                         </tr>
                                     )
@@ -104,3 +139,5 @@ class ListStudentComponent extends Component {
 }
 
 export default ListStudentComponent
+
+
