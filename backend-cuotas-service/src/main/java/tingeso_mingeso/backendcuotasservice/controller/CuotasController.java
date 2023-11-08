@@ -2,16 +2,12 @@ package tingeso_mingeso.backendcuotasservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tingeso_mingeso.backendcuotasservice.entity.CuotasEntity;
-import tingeso_mingeso.backendcuotasservice.model.EstudianteEntity;
 import tingeso_mingeso.backendcuotasservice.service.AdministracionService;
 import tingeso_mingeso.backendcuotasservice.service.CuotasService;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/cuotas")
@@ -26,7 +22,6 @@ public class CuotasController {
         CuotasEntity cuotaNew = cuotasService.saveInstallment(cuota);
         return ResponseEntity.ok(cuotaNew);
     }
-
 
     @GetMapping("/generar-contado/{rut}")
     public ResponseEntity<ArrayList<CuotasEntity>>  generarCuotasContado(@PathVariable("rut") String rut) {
@@ -48,15 +43,11 @@ public class CuotasController {
         return ResponseEntity.ok(limit);//Redirect es para redirigir a otro controlador, return retorna la vista
     }
 
-
-
     @GetMapping("/bystudent/{rut}")
     public ResponseEntity<ArrayList<CuotasEntity>> getByStudentId(@PathVariable("rut") String rut) {
         ArrayList<CuotasEntity> cuotas = cuotasService.getAllByRut(rut);
         return ResponseEntity.ok(cuotas);
     }
-
-
 
     @GetMapping("/mark-paid/{id}")
     public ResponseEntity<Void> markPaid(@PathVariable("id") Long id) {

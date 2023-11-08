@@ -11,8 +11,5 @@ import java.util.List;
 
 @Repository
 public interface ExamenesRepository extends JpaRepository<ExamenesEntity, Long> {
-    //@Query("select e from ExamenesEntity e where e.rut = :rut and e.estado=true")
-    //List<ExamenesEntity> findCuotaByRut(@Param("rut") String rut);
-
     public ArrayList<ExamenesEntity> findByRut(String rut);
 }

@@ -2,23 +2,16 @@ package tingeso_mingeso.backendexamenesservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tingeso_mingeso.backendexamenesservice.entity.ExamenesEntity;
 import tingeso_mingeso.backendexamenesservice.model.EstudianteEntity;
 import tingeso_mingeso.backendexamenesservice.service.ExamenesService;
-
-
-
-
-
-
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/examen")
@@ -26,18 +19,9 @@ public class ExamenesController {
     @Autowired
     ExamenesService examenesService;
 
-
-    /*
-    @PostMapping()
-    public ResponseEntity<ExamenesEntity> save(@RequestBody ExamenesEntity examen) {
-        ExamenesEntity examenNew = examenesService.save(examen);
-        return ResponseEntity.ok(examenNew);
-    }
-*/
-
     @GetMapping("/byrut/{rut}")
     public ResponseEntity<ArrayList<ExamenesEntity>> getByRut(@PathVariable("rut") String rut) {
-        ArrayList<ExamenesEntity> examenes = examenesService.byRut(rut);
+        ArrayList<ExamenesEntity> examenes = examenesService.getAllByRut(rut);
         return ResponseEntity.ok(examenes);
     }
 
@@ -53,7 +37,6 @@ public class ExamenesController {
         return ResponseEntity.ok(estudiante);
     }
 
-
     @GetMapping("/Generate-spreadsheet/{rut}")
     public ResponseEntity<Void>  generarPlanilla(
             @PathVariable String rut
@@ -61,7 +44,5 @@ public class ExamenesController {
         examenesService.generateSpreadsheet(rut);
         return ResponseEntity.noContent().build();
     }
-
-
 
 }

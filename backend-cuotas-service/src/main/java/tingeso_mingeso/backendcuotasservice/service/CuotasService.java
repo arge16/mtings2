@@ -8,13 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tingeso_mingeso.backendcuotasservice.entity.CuotasEntity;
 import tingeso_mingeso.backendcuotasservice.model.EstudianteEntity;
-import tingeso_mingeso.backendcuotasservice.model.ExamenesEntity;
 import tingeso_mingeso.backendcuotasservice.repository.CuotasRepository;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -29,33 +26,17 @@ public class CuotasService {
     @Autowired
     RestTemplate restTemplate;
 
-
-    public ArrayList<CuotasEntity> getInstallments(){
-        return (ArrayList<CuotasEntity>) cuotasRepository.findAll();
-    }
-
     public CuotasEntity saveInstallment(CuotasEntity installment){
         return cuotasRepository.save(installment);
-    }
-
-
-    public Optional<CuotasEntity> getById(Long id){
-        return cuotasRepository.findById(id);
     }
 
     public boolean existsByRut(String rut){
         return cuotasRepository.existsByRut(rut);
     }
 
-
     public ArrayList<CuotasEntity> getAllByRut(String rut){
         return cuotasRepository.findByRut(rut);
     }
-
-
-
-
-
 
     public EstudianteEntity findStudentByRut(String rut){
         System.out.println("rut: "+rut);
@@ -83,7 +64,6 @@ public class CuotasService {
         EstudianteEntity student = findStudentByRut(rut);
         return administracionService.maxInstallments(student.getSchool_type());
     }
-
 
     public void generarPagoContado(String rut) {
         if(!existsByRut(rut)){
@@ -163,15 +143,5 @@ public class CuotasService {
         installment.get().setPayment_date(paymentDay);
         return cuotasRepository.save(installment.get());
     }
-
-
-
-   /*
-    public List<CuotasEntity> findCuotaByRut(String rut){
-
-        return cuotasRepository.findCuotaByRut(rut);
-    }
-
-      */
 
 }

@@ -14,7 +14,6 @@ import tingeso_mingeso.backendexamenesservice.model.CuotasEntity;
 import tingeso_mingeso.backendexamenesservice.model.EstudianteEntity;
 import org.springframework.http.HttpEntity;
 import tingeso_mingeso.backendexamenesservice.repository.ExamenesRepository;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -24,23 +23,13 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
-
-
-
-
-
-
 
 @Service
 public class ExamenesService {
     @Autowired
     ExamenesRepository examenesRepository;
-
 
     @Autowired
     RestTemplate restTemplate;
@@ -49,8 +38,25 @@ public class ExamenesService {
     public ExamenesEntity save(ExamenesEntity examen){
         return examenesRepository.save(examen);
     }
-    public ArrayList<ExamenesEntity> byRut(String rut) {
+    public ArrayList<ExamenesEntity> getAllByRut(String rut){
         return examenesRepository.findByRut(rut);
+    }
+
+    public EstudianteEntity findStudentByRut(String rut){
+        System.out.println("rut: "+rut);
+        ResponseEntity<EstudianteEntity> response = restTemplate.exchange(
+                "http://localhost:8080/estudiante/byRut/"+rut,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<EstudianteEntity>() {}
+        );
+        return response.getBody();
+    }
+
+    public CuotasEntity saveCuota(CuotasEntity cuota) {
+        HttpEntity<CuotasEntity> request = new HttpEntity<CuotasEntity>(cuota);
+        CuotasEntity cuotaNew = restTemplate.postForObject("http://localhost:8080/cuotas", request, CuotasEntity.class);
+        return cuotaNew;
     }
 
     public double discountByExam(int examGrade) {
@@ -142,23 +148,6 @@ public class ExamenesService {
         save(newData);
     }
 
-    public EstudianteEntity findStudentByRut(String rut){
-        System.out.println("rut: "+rut);
-        ResponseEntity<EstudianteEntity> response = restTemplate.exchange(
-                "http://localhost:8080/estudiante/byRut/"+rut,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<EstudianteEntity>() {}
-        );
-        return response.getBody();
-    }
-
-    public CuotasEntity saveCuota(CuotasEntity cuota) {
-        HttpEntity<CuotasEntity> request = new HttpEntity<CuotasEntity>(cuota);
-        CuotasEntity cuotaNew = restTemplate.postForObject("http://localhost:8080/cuotas", request, CuotasEntity.class);
-        return cuotaNew;
-    }
-
     public void setInterestRate(ArrayList<CuotasEntity> installments) {
         //calcular la cuota con mas meses de atraso
         int monthsLate = 0;
@@ -194,12 +183,6 @@ public class ExamenesService {
         }
     }
 
-
-    public ArrayList<ExamenesEntity> getAllByRut(String rut){
-        return examenesRepository.findByRut(rut);
-    }
-
-
     public void generateSpreadsheet(String rut){
         ArrayList<ExamenesEntity> exams = getAllByRut(rut);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -232,8 +215,6 @@ public class ExamenesService {
         }
         setInterestRate(installments);
     }
-
-
 
     public EstudianteEntity generateReport(String rut) {
         EstudianteEntity student = findStudentByRut(rut);
@@ -284,6 +265,5 @@ public class ExamenesService {
         student.setInstallmentsLate(installmentsLate);
         return student;
     }
-
 
 }

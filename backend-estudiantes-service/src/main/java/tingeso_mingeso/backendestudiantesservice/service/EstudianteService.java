@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tingeso_mingeso.backendestudiantesservice.entity.EstudianteEntity;
-import tingeso_mingeso.backendestudiantesservice.entity.TipoColegioEntity;
 import tingeso_mingeso.backendestudiantesservice.repository.EstudianteRepository;
 import tingeso_mingeso.backendestudiantesservice.model.CuotasEntity;
-import org.springframework.http.HttpEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,21 +15,9 @@ public class EstudianteService {
     @Autowired
     EstudianteRepository estudianteRepository;
 
-    @Autowired
-    TipoColegioService tipoColegioService;
 
     @Autowired
     RestTemplate restTemplate;
-
-
-    //public List<EstudianteEntity> findAll(){return estudianteRepository.findAll();}
-
-    public int findIdByTipo(String tipo){
-       TipoColegioEntity tipoColegioEntity = tipoColegioService.findByTipo(tipo);
-       return tipoColegioEntity.getId();
-    }
-
-    //public EstudianteEntity findByRut(String rut){ return estudianteRepository.findByRut(rut); }
 
     public List<EstudianteEntity> getStudents() {
         return (List<EstudianteEntity>) estudianteRepository.findAll();
@@ -50,32 +37,13 @@ public class EstudianteService {
         return estudianteRepository.save(student);
     }
 
-
-    public EstudianteEntity getStudentByRut(String rut) {
-        return estudianteRepository.findByRut(rut);
-    }
-
     public ArrayList<CuotasEntity> getCuotas(String rut) {
         ArrayList<CuotasEntity> cuotas = restTemplate.getForObject("http://backend-cuotas-service/cuotas/bystudent/" + rut, ArrayList.class);
         return cuotas;
     }
 
-
     public EstudianteEntity getStudentById(Long id) {
         return estudianteRepository.findById(id).orElse(null);
     }
 
-    /*
-    public void saveStudentData(String rut, String name, String lastname, String birthdate, int graduation_year, String school, String school_type) {
-        EstudianteEntity student = new EstudianteEntity();
-        student.setRut(rut);
-        student.setName(name);
-        student.setLastname(lastname);
-        student.setBirthdate(birthdate);
-        student.setGraduation_year(graduation_year);
-        student.setSchool(school);
-        student.setSchool_type(school_type);
-        estudianteRepository.save(student);
-    }
-        */
 }
