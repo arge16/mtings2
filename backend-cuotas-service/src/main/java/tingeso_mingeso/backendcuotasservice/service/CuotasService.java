@@ -34,9 +34,15 @@ public class CuotasService {
         return cuotasRepository.existsByRut(rut);
     }
 
+
+    public Optional<CuotasEntity> getInstallmentById(Long id) {
+        return cuotasRepository.findById(id);
+    }
+
     public ArrayList<CuotasEntity> getAllByRut(String rut){
         return cuotasRepository.findByRut(rut);
     }
+
 
     public EstudianteEntity findStudentByRut(String rut){
         System.out.println("rut: "+rut);

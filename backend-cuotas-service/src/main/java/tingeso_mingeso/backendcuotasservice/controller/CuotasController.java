@@ -7,6 +7,7 @@ import tingeso_mingeso.backendcuotasservice.entity.CuotasEntity;
 import tingeso_mingeso.backendcuotasservice.service.AdministracionService;
 import tingeso_mingeso.backendcuotasservice.service.CuotasService;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -17,8 +18,41 @@ public class CuotasController {
     @Autowired
     AdministracionService administracionService;
 
+
+
     @PostMapping()
     public ResponseEntity<CuotasEntity> save(@RequestBody CuotasEntity cuota) {
+        CuotasEntity cuotaNew = cuotasService.saveInstallment(cuota);
+        return ResponseEntity.ok(cuotaNew);
+    }
+
+/*
+    @PostMapping()
+    public ResponseEntity<CuotasEntity> save(@RequestBody CuotasEntity cuota) {
+        // Verifica si la cuota con el mismo ID ya existe en la base de datos
+        Optional<CuotasEntity> existingCuota = cuotasService.getInstallmentById(cuota.getId());
+
+        if (existingCuota == null) {
+            // Si no existe, crea una nueva cuota
+            CuotasEntity cuotaNew = cuotasService.saveInstallment(cuota);
+            return ResponseEntity.ok(cuotaNew);
+        } else {
+            // Si existe, actualiza la cuota existente con los datos proporcionados
+            existingCuota.get().setAmount(cuota.getAmount());
+            existingCuota.get().setDue_date(cuota.getDue_date());
+            existingCuota.get().setDiscount(cuota.getDiscount());
+            existingCuota.get().setInterest(cuota.getInterest());
+            existingCuota.get().setTotal(cuota.getTotal());
+
+            // Llama al servicio para guardar la cuota actualizada
+            CuotasEntity updatedCuotaEntity = cuotasService.saveInstallment(existingCuota.get());
+
+            return ResponseEntity.ok(updatedCuotaEntity);
+        }
+    }
+*/
+    @PutMapping()
+    public ResponseEntity<CuotasEntity> update(@RequestBody CuotasEntity cuota) {
         CuotasEntity cuotaNew = cuotasService.saveInstallment(cuota);
         return ResponseEntity.ok(cuotaNew);
     }
