@@ -97,6 +97,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>backend-estudiantes-service</finalName>
 	</build>
 
 </project>

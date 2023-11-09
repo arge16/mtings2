@@ -97,6 +97,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>backend-cuotas-service</finalName>
 	</build>
 
 </project>

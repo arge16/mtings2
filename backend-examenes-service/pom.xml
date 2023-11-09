@@ -97,6 +97,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>backend-examenes-service</finalName>
 	</build>
 
 </project>
