@@ -55,6 +55,7 @@ public class CuotasService {
         return response.getBody();
     }
 
+
     public EstudianteEntity setPaymentType(String paymentType, String rut){
         System.out.println("rut: "+rut);
         ResponseEntity<EstudianteEntity> response = restTemplate.exchange(

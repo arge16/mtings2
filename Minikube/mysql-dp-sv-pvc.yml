@@ -11,7 +11,7 @@ spec:
   accessModes:
       - ReadWriteOnce
   hostPath:
-      path: "/Users/usuario/Datos de programa/Docker/mysql/docker-pg-vol/data"
+      path: "/Users/usuario/docker/mysql/docker-pg-vol/data"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

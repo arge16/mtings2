@@ -38,7 +38,7 @@ public class EstudianteService {
     }
 
     public ArrayList<CuotasEntity> getCuotas(String rut) {
-        ArrayList<CuotasEntity> cuotas = restTemplate.getForObject("http://backend-cuotas-service/cuotas/bystudent/" + rut, ArrayList.class);
+        ArrayList<CuotasEntity> cuotas = restTemplate.getForObject("http://localhost:8080/cuotas/bystudent/" + rut, ArrayList.class);
         return cuotas;
     }
 

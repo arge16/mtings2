@@ -18,7 +18,7 @@ spec:
         - name: topeducation-estudiantes
           image: arge16/topeducation-estudiantes:latest
           ports:
-            - containerPort: 8081
+            - containerPort: 8084
           env:
             - name: SPRING_CLOUD_CONFIG_URI
               value: http://backend-config-service:8081
